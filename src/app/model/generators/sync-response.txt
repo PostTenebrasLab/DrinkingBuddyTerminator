@@ -1,0 +1,16 @@
+[
+  '{{repeat(1, 1)}}',
+  {
+    hash: '{{objectId()}}',
+    time: '{{ date(new Date(2016, 0, 1),  new Date(2017, 0, 1), ("YYYY-MM-ddTHH:mm:ss.ffZ"))}}',
+    header: "DrinkingBuddy",
+    products: [
+      '{{repeat(3, 10)}}',
+      {
+        id: '{{index()}}',
+        name: '{{surname()}}',
+        qty: '{{integer(1, 3)}}',
+        price: '{{integer(100, 400)}}'
+      }
+  ]}
+]

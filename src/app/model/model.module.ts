@@ -7,7 +7,7 @@ import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
 @NgModule({
   imports: [
     CommonModule,
-    InMemoryWebApiModule.forRoot(MockData) // only for dev
+    // InMemoryWebApiModule.forRoot(MockData) // only for dev
   ],
   declarations: []
 })

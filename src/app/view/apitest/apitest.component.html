@@ -1,0 +1,8 @@
+<p>
+  apitest works!
+</p>
+
+<button (click)="_srv.getSync()">Test Connection</button>
+
+<dby-apiview
+[products]="_srv.products | async"></dby-apiview>
