@@ -5,9 +5,9 @@ Web client and RFID acces manager for the Drinking Buddy Project
 # API reference
 (cfr: [API Interfaces](https://github.com/PostTenebrasLab/DrinkingBuddyTerminator/tree/master/src/app/model/api "API Interfaces").)
 
-*sync
-*balance
-*buy
+-sync
+-balance
+-buy
 
 ## sync
 request: get to /sync
