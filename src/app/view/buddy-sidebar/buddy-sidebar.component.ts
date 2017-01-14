@@ -8,8 +8,8 @@ import { TestService } from '../../shared/test.service';
   styleUrls: ['./buddy-sidebar.component.css']
 })
 export class BuddySidebarComponent implements OnInit {
-   
-   userName: string = 'Boris';
+
+  userName: string = 'Boris';
 
   constructor(private _srv: TestService) { }
 
