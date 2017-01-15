@@ -4,6 +4,7 @@ import { HttpModule } from '@angular/http';
 import { ApiService } from './shared/api.service';
 
 import { mainReducer } from './model/main-reducer';
+import { profileReducer } from './model/profile-reducer';
 import { StoreModule } from '@ngrx/store';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -36,6 +37,7 @@ import { ApitestService } from './view/apitest/apitest.service';
 
     StoreModule.provideStore({
       products: mainReducer,
+      profile: profileReducer,
     }),
 
   ],

@@ -10,8 +10,8 @@
 // 0: ok
 // !0: error
 export interface IbalanceResponse {
-    Melody: string;
-    Message: string;
-    Time: any;
-    Status: number;
+    melody: string;
+    message: string;
+    time: any;
+    status: number;
 }
