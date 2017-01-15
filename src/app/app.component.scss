@@ -1,13 +1,17 @@
 dby-buddy-sidebar{
     float:left;
-    width:20%;
+    width:30%;
     height:100%;
     position: relative;
-    background-color: grey;
+    background-color: #ccc;
+    & > *{
+        padding:15px;
+        background-color: red;
+    }   
 }
 dby-buddy-store{
     float:right;
-    width:80%;
+    width:70%;
     height:100%;
-    background-color: slategrey;
+    background-color: ghostwhite;
 }

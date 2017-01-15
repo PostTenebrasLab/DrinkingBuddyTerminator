@@ -1,6 +1,37 @@
-<img src="assets/img/logo_ptl.png" alt="logo ptl">
-<h1>Drinking Budy</h1>
-<h2>
-  {{userName}}
-</h2>
-<button (click)="testConnect()">Test Connection</button>
+<div class="dby-buddy-sidebar-wrapper">
+  <header>
+    <img src="assets/img/logo_ptl.png" alt="logo ptl">
+    <h1>Drinking Buddy</h1>
+  </header>
+  <div class="user-informations">
+    <h2>
+      {{userName}}
+    </h2>
+    <p class="user-sold">
+    {{sold}}<span class="decimal">.00</span><br/><span>CHF</span>
+    </p>
+    
+  </div>
+  <button href="" class="btn add-money" (click)="toggleMoneyPanel(true)">
+      Add money
+  </button>
+  <div class="money-panel" [ngClass]="{'visible': addMoneyIsVisible === true}">
+    <span></span>
+    <button href="" class="btn add-money-10" (click)="addMoney(10)">
+     10
+    </button>
+    <button href="" class="btn add-money-20" (click)="addMoney(20)">
+     20
+    </button>
+    <button href="" class="btn add-money-50" (click)="addMoney(50)">
+     50
+    </button>
+    
+  </div>
+
+
+
+  <button href="" class="btn cancel" (click)="cancelAction()">
+      Cancel
+  </button>
+</div>

@@ -1,0 +1,32 @@
+.item-wrapper{
+    width:25%;
+    position:relative;
+    float:left;
+    img{
+        width:100%;
+        height:auto;
+        display:block;
+    }
+    .text-content{
+        position:absolute;
+        bottom:0;
+        background-color:rgba(0,0,0,0.4);
+        width:100%;
+        p{
+            color:white;
+            padding: 10px;
+        }
+        .drink-description{
+            font-size: 18px;
+            font-weight: bold;
+            padding-bottom: 0px;
+        }
+        .drink-price{
+            font-size: 18px;
+            padding-top: 7px;
+            span{
+                font-size: 12px;
+            }
+        }
+    }
+}
