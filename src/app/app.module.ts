@@ -36,6 +36,7 @@ import { ApitestService } from './view/apitest/apitest.service';
 
     StoreModule.provideStore({
       products: mainReducer,
+      profile: profileReducer,
     }),
 
   ],
