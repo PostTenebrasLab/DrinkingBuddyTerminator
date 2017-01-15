@@ -32,14 +32,14 @@ export class ApiService {
     this.profile = _store.select('profile');
 
     this.sync_request = {
-      TID: TERMINAL_ID,
+      terminal_id: TERMINAL_ID,
     };
 
     this.balance_request = {
-      Badge: mykey,
-      Time: 123456789,
-      Hash: '587a6b195d845c190261d6ab',
-      TID: TERMINAL_ID,
+      badge: mykey,
+      time: 123456789,
+      hash: '587a6b195d845c190261d6ab',
+      terminal_id: TERMINAL_ID,
     };
 
   }
@@ -54,7 +54,7 @@ export class ApiService {
       this.sync_request,
       options)
       .map(res => res.json())
-      .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.Products }))
+      .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.products }))
       .subscribe(
       (action) => {
         console.log(action);
@@ -75,7 +75,7 @@ export class ApiService {
       this.balance_request,
       options)
       .map(res => res.json())
-      .map((response: IbalanceResponse) => ({ type: ADD_PROFILE, payload: response.Message }))
+      .map((response: IbalanceResponse) => ({ type: ADD_PROFILE, payload: response.message }))
       .subscribe(
       (action) => {
         console.log(action);
