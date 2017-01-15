@@ -1,3 +1,3 @@
 export interface IsyncRequest {
-    TID: number;
+    terminal_id: number;
 }

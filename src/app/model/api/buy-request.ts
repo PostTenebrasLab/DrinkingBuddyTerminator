@@ -1,9 +1,9 @@
 import { IcartItem } from './cart-item';
 export interface IbuyRequest {
-    Badge: string;
+    badge: string;
     cart: IcartItem[];
-    ProductId: number;
-    Time: number;
-    Hash: string;
-    TID: number;
+    product_id: number;
+    time: number;
+    hash: string;
+    terminal_id: number;
 }

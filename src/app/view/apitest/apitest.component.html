@@ -6,4 +6,6 @@
 <button (click)="_srv.postBalance()">Test Balance</button>
 
 <dby-apiview
-[products]="_srv.products | async"></dby-apiview>
+[products]="_srv.products | async"
+[profile]="_srv.profile | async"
+></dby-apiview>

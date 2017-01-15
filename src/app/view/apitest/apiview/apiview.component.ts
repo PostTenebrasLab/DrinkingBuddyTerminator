@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
+import { IcartItem } from '../../../model/api/cart-item';
 import { IbuddyItem } from '../../../model/buddy-item';
+import { ImessageBalance } from '../../../model/api/message-balance';
 
 @Component({
   selector: 'dby-apiview',
@@ -10,6 +12,7 @@ import { IbuddyItem } from '../../../model/buddy-item';
 export class ApiviewComponent implements OnInit {
 
   @Input() products: IbuddyItem[];
+  @Input() profile: ImessageBalance;
 
   constructor() { }
 

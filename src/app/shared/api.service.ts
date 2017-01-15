@@ -22,12 +22,14 @@ export class ApiService {
   private syncUrl = 'sync';
   private balanceUrl = 'balance';
   private products: Observable<any>;
+  private profile: Observable<any>;
   private sync_request: IsyncRequest;
   private balance_request: IbalanceRequest;
 
   constructor(private _http: Http, private _store: Store<any>) {
 
     this.products = _store.select('products');
+    this.profile = _store.select('profile');
 
     this.sync_request = {
       TID: TERMINAL_ID,
@@ -77,7 +79,7 @@ export class ApiService {
       .subscribe(
       (action) => {
         console.log(action);
-        // return this._store.dispatch(action);
+        return this._store.dispatch(action);
       },
       error => this._apiErrorHandler(this.syncUrl, error),
       () => console.log('complete: ' + this.syncUrl)

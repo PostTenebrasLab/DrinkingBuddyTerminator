@@ -3,4 +3,5 @@ export interface IbalanceRequest {
     time: number;
     hash: string;
     terminal_id: number;
+    credit: number;
 }
