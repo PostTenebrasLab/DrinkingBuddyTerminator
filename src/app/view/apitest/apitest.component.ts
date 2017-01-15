@@ -1,5 +1,6 @@
-import { ApitestService } from './apitest.service';
 import { Component, OnInit } from '@angular/core';
+
+import { ApiService } from '../../shared/api.service';
 
 @Component({
   selector: 'dby-apitest',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApitestComponent implements OnInit {
 
-  constructor(private _srv: ApitestService) { }
+  constructor(private _srv: ApiService) { }
 
   ngOnInit() { }
 

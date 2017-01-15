@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ApiService } from './shared/api.service';
 
 import { mainReducer } from './model/main-reducer';
 import { StoreModule } from '@ngrx/store';
@@ -38,7 +39,7 @@ import { ApitestService } from './view/apitest/apitest.service';
     }),
 
   ],
-  providers: [TestService, ApitestService],
+  providers: [TestService, ApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
