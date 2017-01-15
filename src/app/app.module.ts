@@ -13,13 +13,19 @@ import { ModelModule } from './model/model.module';
 
 import { TestService } from './shared/test.service';
 import { BuddyItemComponent } from './view/buddy-store/buddy-item/buddy-item.component';
+// import { ApitestModule } from './view/apitest/apitest.module';
+import { ApitestComponent } from './view/apitest/apitest.component';
+import { ApiviewComponent } from './view/apitest/apiview/apiview.component';
+import { ApitestService } from './view/apitest/apitest.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     BuddySidebarComponent,
     BuddyStoreComponent,
-    BuddyItemComponent
+    BuddyItemComponent,
+    ApitestComponent,
+    ApiviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,10 +34,11 @@ import { BuddyItemComponent } from './view/buddy-store/buddy-item/buddy-item.com
     ModelModule,
 
     StoreModule.provideStore({
-      data: mainReducer,
+      products: mainReducer,
     }),
+
   ],
-  providers: [TestService],
+  providers: [TestService, ApitestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

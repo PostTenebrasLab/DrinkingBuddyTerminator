@@ -10,13 +10,13 @@ Web client and RFID acces manager for the Drinking Buddy Project
 - buy
 
 ## sync
-request: get to /sync
-response: items available (with price and quantity)
+request: get to /sync.
+response: items available (with price and quantity).
 
 ## balance
-request: badge id
-response(message): error or  credit
+request: badge id.
+response(message): error or  credit.
 
 ## buy
-request: badge + product_id
-response(message): win + optional text 
+request: badge + product_id.
+response(message): win + optional text.

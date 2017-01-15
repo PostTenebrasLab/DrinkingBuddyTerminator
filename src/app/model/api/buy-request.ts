@@ -1,4 +1,4 @@
-export interface IbalanceRequest {
+export interface IbuyRequest {
     Badge: string;
     ProductId: number;
     Time: number;
