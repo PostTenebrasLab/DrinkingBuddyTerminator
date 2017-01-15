@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ApiService } from '../../shared/api.service';
 
 @Component({
   selector: 'dby-buddy-store',
@@ -9,7 +10,7 @@ export class BuddyStoreComponent implements OnInit {
 
   @Input() profile: any;
 
-  constructor() { }
+  constructor(private _srv: ApiService) { }
 
   ngOnInit() {
   }
