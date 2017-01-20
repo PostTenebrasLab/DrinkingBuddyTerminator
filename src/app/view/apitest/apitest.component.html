@@ -4,6 +4,8 @@
 
 <button (click)="_srv.postSync()">Test Sync</button>
 <button (click)="_srv.postBalance()">Test Balance</button>
+<button (click)="buy()">Test Buy</button>
+<button (click)="_srv.postCredit()">Test Credit</button>
 
 <dby-apiview
 [products]="_srv.products | async"

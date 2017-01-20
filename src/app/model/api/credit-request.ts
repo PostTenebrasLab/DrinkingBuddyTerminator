@@ -1,4 +1,4 @@
-export interface IbalanceRequest {
+export interface IcreditRequest {
     badge: string;
     time: number;
     hash: string;

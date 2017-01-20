@@ -9,7 +9,7 @@ export const profileReducer: ActionReducer<any[]> = (state = [], action: Action)
             console.log('REDUCER');
             console.log(action.payload);
 
-            return Object.assign([], state, action.payload);
+            return Object.assign([], state, action.payload.message);
 
         default:
             return state;

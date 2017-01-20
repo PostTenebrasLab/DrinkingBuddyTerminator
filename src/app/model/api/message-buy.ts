@@ -1,4 +1,4 @@
 export interface ImessageBuy {
-    win: boolean;
+    won: boolean;
     desc: string;
 }

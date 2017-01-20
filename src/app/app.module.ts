@@ -20,6 +20,7 @@ import { BuddyItemComponent } from './view/buddy-store/buddy-item/buddy-item.com
 import { ApitestComponent } from './view/apitest/apitest.component';
 import { ApiviewComponent } from './view/apitest/apiview/apiview.component';
 import { ApitestService } from './view/apitest/apitest.service';
+import { BuddySnackbarComponent } from './view/buddy-snackbar/buddy-snackbar.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ApitestService } from './view/apitest/apitest.service';
     BuddyItemComponent,
     ApitestComponent,
     ApiviewComponent,
+    BuddySnackbarComponent,
   ],
   imports: [
     BrowserModule,
