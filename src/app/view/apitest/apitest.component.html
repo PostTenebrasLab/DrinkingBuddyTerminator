@@ -9,3 +9,9 @@
 [products]="_srv.products | async"
 [profile]="_srv.profile | async"
 ></dby-apiview>
+
+<div class="errorbar" [hidden]="!errorMsg">
+  <div> Error from: {{errorMsg?.label}}</div>
+  <div>{{errorMsg?.msg}}</div>
+  <button (click)="_srv.dismissError()">Dismiss</button>
+</div>

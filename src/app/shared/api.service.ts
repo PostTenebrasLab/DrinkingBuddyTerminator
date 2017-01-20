@@ -10,7 +10,12 @@ import { IbalanceResponse } from '../model/api/balance-response';
 import { IbalanceRequest } from '../model/api/balance-request';
 import { IsyncRequest } from '../model/api/sync.request';
 import { IsyncResponse } from '../model/api/sync-response';
-import { ADD_PRODUCT, ADD_PROFILE } from '../model/action-names';
+import {
+  ADD_PRODUCT,
+  ADD_PROFILE,
+  API_ERROR,
+  API_ERROR_CLEAN,
+} from '../model/action-names';
 
 // const BASE_URL = 'app/';
 const BASE_URL = 'http://10.10.20.45:5000/';
@@ -21,6 +26,7 @@ export class ApiService {
 
   private syncUrl = 'sync';
   private balanceUrl = 'balance';
+  public main: Observable<any>;
   private products: Observable<any>;
   private profile: Observable<any>;
   private sync_request: IsyncRequest;
@@ -28,6 +34,7 @@ export class ApiService {
 
   constructor(private _http: Http, private _store: Store<any>) {
 
+    this.main = _store.select('main');
     this.products = _store.select('products');
     this.profile = _store.select('profile');
 
@@ -90,6 +97,12 @@ export class ApiService {
   private _apiErrorHandler(label: string, response) {
     console.log(label + ' - LOAD ERROR: ');
     console.log(response);
+
+    this._store.dispatch({ type: API_ERROR, payload: {label: label, msg: response} });
+  }
+
+  protected dismissError(){
+    this._store.dispatch({ type: API_ERROR_CLEAN, payload: null });
   }
 
 }

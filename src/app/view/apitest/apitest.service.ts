@@ -43,7 +43,7 @@ export class ApitestService {
       test_data,
       options)
       .map(res => res.json())
-      .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.Products }))
+      .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.products }))
       .subscribe(
       (action) => {
         console.log(action);
