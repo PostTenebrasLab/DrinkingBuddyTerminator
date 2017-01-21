@@ -6,8 +6,6 @@ import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
 import { environment } from '../../environments/environment';
-import { mykey } from './local.conf';
-import { IbalanceResponse } from '../model/api/balance-response';
 import { IbalanceRequest } from '../model/api/balance-request';
 import { IcreditRequest } from '../model/api/credit-request';
 import { IsyncRequest } from '../model/api/sync.request';
@@ -23,13 +21,6 @@ import {
   ADD_CREDIT,
 } from '../model/action-names';
 
-// const BASE_URL = '/app/';
-// const BASE_URL = '';
-// const BASE_URL = 'http://10.10.20.45:5000/';
-// const BASE_URL = 'http://10.42.65.20:5000/';
-// const BASE_URL = 'http://ptlpi:5000/';
-
-
 const TERMINAL_ID = 0;
 
 @Injectable()
@@ -41,9 +32,6 @@ export class ApiService {
   private buyUrl = 'buy';
   private creditUrl = 'credit';
 
-  // private fakeTime = 123456789;
-  // private fakeHash = '587a6b195d845c190261d6ab';
-
   public main: Observable<any>;
   private products: Observable<any>;
   public profile: Observable<any>;
@@ -51,6 +39,8 @@ export class ApiService {
   private balance_request: IbalanceRequest;
   private credit_request: IcreditRequest;
   private buy_request: IbuyRequest;
+  private badge_key: any;
+
 
   constructor(private _http: Http, private _store: Store<any>) {
 
@@ -68,12 +58,15 @@ export class ApiService {
   // Settings for developement
 
   private devSettings() {
+
+    this.badge_key = environment.fakeKey;
+
     this.sync_request = {
       terminal_id: TERMINAL_ID,
     };
 
     this.buy_request = {
-      badge: mykey,
+      badge: this.badge_key,
       cart: null,
       time: environment.fakeTime,
       hash: environment.fakeHash,
@@ -81,24 +74,24 @@ export class ApiService {
     };
 
     this.balance_request = {
-      badge: mykey,
+      badge: this.badge_key,
       time: environment.fakeTime,
       hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
     };
 
     this.credit_request = {
-      badge: mykey,
+      badge: this.badge_key,
       time: environment.fakeTime,
       hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
       credit: 1000,
     };
 
-    this.products.subscribe(q => {
-      console.log('products subscribe ');
-      console.log(q);
-    });
+    // this.products.subscribe(q => {
+    //   console.log('products subscribe ');
+    //   console.log(q);
+    // });
 
   }
 
@@ -158,17 +151,13 @@ export class ApiService {
       .map(res => res.json())
       .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.products }))
       .subscribe(
-      (action) => {
-        console.log(action);
-        return this._store.dispatch(action);
-      },
+      (action) => this._store.dispatch(action),
       error => this._apiErrorHandler(this.syncUrl, error),
       () => console.log('complete: ' + this.syncUrl)
       );
   }
 
   public postMessage(url: string, request: any, actionName: any) {
-    // debugger
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
@@ -179,10 +168,7 @@ export class ApiService {
       .map(res => res.json())
       .map((json_resp: any) => ({ type: actionName, payload: json_resp }))
       .subscribe(
-      (action) => {
-        console.log(action);
-        return this._store.dispatch(action);
-      },
+      (action) => this._store.dispatch(action),
       error => this._apiErrorHandler(url, error),
       () => console.log('complete: ' + url)
       );
@@ -196,16 +182,8 @@ export class ApiService {
     this._http.get(
       this.BASE_URL + this.syncUrl,
       this.sync_request)
-      .map(res => {
-
-        // debugger
-        return res.json().data;
-      })
-      .map((data: any) => {
-
-        // debugger
-        return ({ type: ADD_PRODUCT, payload: data })
-      })
+      .map(res => res.json().data)
+      .map((data: any) => ({ type: ADD_PRODUCT, payload: data }))
       .subscribe(
       (action) => {
         console.log(action);

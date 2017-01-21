@@ -9,4 +9,5 @@ export const environment = {
   base_url: 'app/',
   fakeTime: 123456789,
   fakeHash: '587a6b195d845c190261d6ab',
+  fakeKey: 'none',
 };
