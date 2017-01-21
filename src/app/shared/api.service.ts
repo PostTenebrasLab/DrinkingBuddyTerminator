@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
+import { environment } from '../../environments/environment';
 import { mykey } from './local.conf';
 import { IbalanceResponse } from '../model/api/balance-response';
 import { IbalanceRequest } from '../model/api/balance-request';
@@ -12,6 +13,7 @@ import { IcreditRequest } from '../model/api/credit-request';
 import { IsyncRequest } from '../model/api/sync.request';
 import { IsyncResponse } from '../model/api/sync-response';
 import { IcartItem } from '../model/api/cart-item';
+import { IbuyRequest } from '../model/api/buy-request';
 import {
   ADD_PRODUCT,
   API_BALANCE,
@@ -21,22 +23,26 @@ import {
   ADD_CREDIT,
 } from '../model/action-names';
 
-// const BASE_URL = 'app/';
+// const BASE_URL = '/app/';
+// const BASE_URL = '';
 // const BASE_URL = 'http://10.10.20.45:5000/';
 // const BASE_URL = 'http://10.42.65.20:5000/';
-const BASE_URL = 'http://ptlpi:5000/';
+// const BASE_URL = 'http://ptlpi:5000/';
+
+
 const TERMINAL_ID = 0;
 
 @Injectable()
 export class ApiService {
 
+  private BASE_URL: string;
   private syncUrl = 'sync';
   private balanceUrl = 'balance';
   private buyUrl = 'buy';
   private creditUrl = 'credit';
 
-  private fakeTime = 123456789;
-  private fakeHash = '587a6b195d845c190261d6ab';
+  // private fakeTime = 123456789;
+  // private fakeHash = '587a6b195d845c190261d6ab';
 
   public main: Observable<any>;
   private products: Observable<any>;
@@ -44,28 +50,47 @@ export class ApiService {
   private sync_request: IsyncRequest;
   private balance_request: IbalanceRequest;
   private credit_request: IcreditRequest;
+  private buy_request: IbuyRequest;
 
   constructor(private _http: Http, private _store: Store<any>) {
 
+    this.BASE_URL = environment.base_url;
     this.main = _store.select('main');
     this.products = _store.select('products');
     this.profile = _store.select('profile');
 
+    if (!environment.production) {
+      this.devSettings();
+    }
+
+  }
+
+  // Settings for developement
+
+  private devSettings() {
     this.sync_request = {
+      terminal_id: TERMINAL_ID,
+    };
+
+    this.buy_request = {
+      badge: mykey,
+      cart: null,
+      time: environment.fakeTime,
+      hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
     };
 
     this.balance_request = {
       badge: mykey,
-      time: this.fakeTime,
-      hash: this.fakeHash,
+      time: environment.fakeTime,
+      hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
     };
 
     this.credit_request = {
       badge: mykey,
-      time: this.fakeTime,
-      hash: this.fakeHash,
+      time: environment.fakeTime,
+      hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
       credit: 1000,
     };
@@ -77,13 +102,57 @@ export class ApiService {
 
   }
 
-  public postSync() {
+
+  // API calls preparation
+  // mock hack for dev at home
+  // InMemoryWebApi return a proper response for the post request
+  // ours API require a POST instead of a GET
+
+  public sync() {
+    if (environment.mock) {
+      return this.getSync();
+    }
+    return this.postSync();
+  }
+
+
+  public postBalance() {
+    if (environment.mock) {
+      return this.getMessage(this.balanceUrl, this.balance_request, API_BALANCE);
+    }
+    return this.postMessage(this.balanceUrl, this.balance_request, API_BALANCE);
+  }
+
+  public postCredit(amount = 0) {
+    this.credit_request.credit = amount * 100;
+
+    if (environment.mock) {
+      return this.getMessage(this.creditUrl, this.credit_request, ADD_CREDIT);
+    }
+    return this.postMessage(this.creditUrl, this.credit_request, ADD_CREDIT);
+
+  }
+
+  public postBuy(items: IcartItem[]) {
+    this.buy_request.cart = items;
+    this.postMessage(this.buyUrl, this.buy_request, BUY_MSG);
+
+
+    if (environment.mock) {
+      return this.getMessage(this.buyUrl, this.buy_request, BUY_MSG);
+    }
+    return this.postMessage(this.buyUrl, this.buy_request, BUY_MSG);
+
+  }
+
+  // API calls
+  private postSync() {
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     this._http.post(
-      BASE_URL + this.syncUrl,
+      this.BASE_URL + this.syncUrl,
       this.sync_request,
       options)
       .map(res => res.json())
@@ -98,40 +167,62 @@ export class ApiService {
       );
   }
 
-  public postBalance() {
-    this.postMessage(this.balanceUrl, this.balance_request, API_BALANCE);
-  }
-
-  public postCredit(amount = 0) {
-    this.credit_request.credit = amount * 100;
-    console.log(typeof amount);
-    console.log('postCredit');
-    console.log(this.credit_request);
-    this.postMessage(this.creditUrl, this.credit_request, ADD_CREDIT);
-  }
-
-  public postBuy(items: IcartItem[]) {
-    let request = {
-      badge: mykey,
-      cart: items,
-      time: this.fakeTime,
-      hash: this.fakeHash,
-      terminal_id: TERMINAL_ID,
-    };
-    this.postMessage(this.buyUrl, request, BUY_MSG);
-  }
-
   public postMessage(url: string, request: any, actionName: any) {
-
+    // debugger
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
     this._http.post(
-      BASE_URL + url,
+      this.BASE_URL + url,
       request,
       options)
       .map(res => res.json())
-      .map((response: IbalanceResponse) => ({ type: actionName, payload: response }))
+      .map((json_resp: any) => ({ type: actionName, payload: json_resp }))
+      .subscribe(
+      (action) => {
+        console.log(action);
+        return this._store.dispatch(action);
+      },
+      error => this._apiErrorHandler(url, error),
+      () => console.log('complete: ' + url)
+      );
+  }
+
+
+  // Mocked APi Calls
+
+  public getSync() {
+
+    this._http.get(
+      this.BASE_URL + this.syncUrl,
+      this.sync_request)
+      .map(res => {
+
+        // debugger
+        return res.json().data;
+      })
+      .map((data: any) => {
+
+        // debugger
+        return ({ type: ADD_PRODUCT, payload: data })
+      })
+      .subscribe(
+      (action) => {
+        console.log(action);
+        return this._store.dispatch(action);
+      },
+      error => this._apiErrorHandler(this.syncUrl, error),
+      () => console.log('complete: ' + this.syncUrl)
+      );
+  }
+
+  public getMessage(url: string, request: any, actionName: any) {
+
+    this._http.get(
+      this.BASE_URL + url,
+      request)
+      .map(res => res.json().data)
+      .map((resp: any) => ({ type: actionName, payload: resp }))
       .subscribe(
       (action) => {
         console.log(action);

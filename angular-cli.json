@@ -22,6 +22,7 @@
       ],
       "scripts": [],
       "environments": {
+        "mock": "environments/environment.mock.ts",
         "source": "environments/environment.ts",
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"

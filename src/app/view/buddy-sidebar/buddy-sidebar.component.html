@@ -1,12 +1,12 @@
 <div class="dby-buddy-sidebar-wrapper">
-  
-  <header (click)="_srv.postSync()">
+
+  <header (click)="_srv.sync()">
     <img src="assets/img/logo_ptl.png" alt="logo ptl">
     <h1>Drinking Buddy</h1>
   </header>
-  
+
   <dby-profile></dby-profile>
-  
+
   <button href="" class="btn add-money" (click)="toggleMoneyPanel(true)">
       Add money
   </button>
@@ -21,7 +21,7 @@
     </button>
     <button href="" class="btn add-money-50" (click)="addMoney(50)">
      50
-    </button>  
+    </button>
   </div>
 
 <div class="cart"></div>

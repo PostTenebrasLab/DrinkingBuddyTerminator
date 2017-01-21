@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  mock: false,
-  base_url: 'http://ptlpi:5000/',
+  mock: true,
+  base_url: 'app/',
   fakeTime: 123456789,
   fakeHash: '587a6b195d845c190261d6ab',
 };
