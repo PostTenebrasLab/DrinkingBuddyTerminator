@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../../shared/api.service';
+import { IbuddyItem } from '../../model/buddy-item';
 
 @Component({
   selector: 'dby-buddy-store',
@@ -8,11 +9,15 @@ import { ApiService } from '../../shared/api.service';
 })
 export class BuddyStoreComponent implements OnInit {
 
-  @Input() profile: any;
+  @Input() products: IbuddyItem[];
 
   constructor(private _srv: ApiService) { }
 
   ngOnInit() {
+  }
+
+  log() {
+    console.log(this.products);
   }
 
 }

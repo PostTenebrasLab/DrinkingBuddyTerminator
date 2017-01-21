@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
-import { ADD_PROFILE } from '../model/action-names';
+import { API_BALANCE } from '../model/action-names';
 
 const BASE_URL = 'app/';
 
@@ -25,7 +25,7 @@ export class TestService {
 
     this._http.get('app/heroes')
       .map(res => res.json().data)
-      .map(data => ({ type: ADD_PROFILE, payload: data }))
+      .map(data => ({ type: API_BALANCE, payload: data }))
       .subscribe(
       action => this._store.dispatch(action),
       error => this._apiErrorHandler(this.heroesUrl, error),

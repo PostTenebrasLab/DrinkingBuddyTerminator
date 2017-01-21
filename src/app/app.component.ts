@@ -1,5 +1,5 @@
-import { TestService } from './shared/test.service';
 import { Component } from '@angular/core';
+import { ApiService } from './shared/api.service';
 
 @Component({
   selector: 'dby-root',
@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
 
-  constructor(private _srv: TestService) { }
+  constructor(private _srv: ApiService) { }
 
 }

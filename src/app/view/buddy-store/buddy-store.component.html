@@ -1,2 +1,4 @@
 
-<bdy-buddy-item [products]="_srv.products | async"></bdy-buddy-item>
+<dby-buddy-item 
+*ngFor="let item of products" 
+[item]="item"></dby-buddy-item>

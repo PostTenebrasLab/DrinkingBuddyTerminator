@@ -1,8 +1,10 @@
-<div id="snackbar" [hidden]="!errorMsg && !simpleMsg">
+<div 
+id="snackbar" 
+[ngClass]="{'show': errorMsg || simpleMsg}"
+(click)="_srv.dismissError()">
 
-  <div [hidden]="!errorMsg?.label"> Error from: {{errorMsg?.label}}</div>
-  <div>{{errorMsg?.msg}}</div>
+  <div>{{errorMsg?.error}}</div>
+  <div>{{errorMsg?.desc}}</div>
   <div>{{simpleMsg}}</div>
-  <button (click)="_srv.dismissError()">Dismiss</button>
 
 </div>

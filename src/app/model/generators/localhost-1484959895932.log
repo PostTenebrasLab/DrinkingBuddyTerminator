@@ -1,0 +1,10 @@
+lang.js:88Angular 2 is running in the development mode. Call enableProdMode() to enable the production mode.
+api.service.ts:102 postCredit
+api.service.ts:103 postCredit
+api.service.ts:104 Objectbadge: "A20F742E"credit: 1000hash: "587a6b195d845c190261d6ab"terminal_id: 0time: 123456789__proto__: Object
+ptlpi:5000/credit:1 POST http://ptlpi:5000/credit 500 (INTERNAL SERVER ERROR)
+ptlpi:5000/credit:1 POST http://ptlpi:5000/credit 500 (INTERNAL SERVER ERROR)
+localhost/:1 XMLHttpRequest cannot load http://ptlpi:5000/credit. No 'Access-Control-Allow-Origin' header is present on the requested resource. Origin 'http://localhost:4200' is therefore not allowed access. The response had HTTP status code 500.
+api.service.ts:142 API ERROR: credit
+api.service.ts:143 Response {_body: ProgressEvent, status: 0, ok: false, statusText: "", headers: Headers…}
+client?93b6:38 [WDS] App updated. Recompiling...

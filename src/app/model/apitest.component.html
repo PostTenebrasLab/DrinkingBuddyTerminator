@@ -1,3 +1,7 @@
+<p>
+  apitest works!
+</p>
+
 <button (click)="_srv.postSync()">Test Sync</button>
 <button (click)="_srv.postBalance()">Test Balance</button>
 <button (click)="buy()">Test Buy</button>
@@ -7,3 +11,9 @@
 [products]="_srv.products | async"
 [profile]="_srv.profile | async"
 ></dby-apiview>
+
+<div class="errorbar" [hidden]="!errorMsg">
+  <div> Error from: {{errorMsg?.error}}</div>
+  <div>{{errorMsg?.desc}}</div>
+  <button (click)="_srv.dismissError()">Dismiss</button>
+</div>

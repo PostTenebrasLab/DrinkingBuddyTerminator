@@ -21,6 +21,7 @@ import { ApitestComponent } from './view/apitest/apitest.component';
 import { ApiviewComponent } from './view/apitest/apiview/apiview.component';
 import { ApitestService } from './view/apitest/apitest.service';
 import { BuddySnackbarComponent } from './view/buddy-snackbar/buddy-snackbar.component';
+import { ProfileComponent } from './view/buddy-sidebar/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { BuddySnackbarComponent } from './view/buddy-snackbar/buddy-snackbar.com
     ApitestComponent,
     ApiviewComponent,
     BuddySnackbarComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

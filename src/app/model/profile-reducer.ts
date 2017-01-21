@@ -1,11 +1,11 @@
 
 import { ActionReducer, Action } from '@ngrx/store';
-import { ADD_PROFILE } from './action-names';
+import { API_BALANCE } from './action-names';
 
 export const profileReducer: ActionReducer<any[]> = (state = [], action: Action) => {
     switch (action.type) {
 
-        case ADD_PROFILE:
+        case API_BALANCE:
             console.log('REDUCER');
             console.log(action.payload);
 

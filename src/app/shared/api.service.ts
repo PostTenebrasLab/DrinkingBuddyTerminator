@@ -14,7 +14,7 @@ import { IsyncResponse } from '../model/api/sync-response';
 import { IcartItem } from '../model/api/cart-item';
 import {
   ADD_PRODUCT,
-  ADD_PROFILE,
+  API_BALANCE,
   API_ERROR,
   API_ERROR_CLEAN,
   BUY_MSG,
@@ -40,7 +40,7 @@ export class ApiService {
 
   public main: Observable<any>;
   private products: Observable<any>;
-  private profile: Observable<any>;
+  public profile: Observable<any>;
   private sync_request: IsyncRequest;
   private balance_request: IbalanceRequest;
   private credit_request: IcreditRequest;
@@ -70,6 +70,11 @@ export class ApiService {
       credit: 1000,
     };
 
+    this.products.subscribe(q => {
+      console.log('products subscribe ');
+      console.log(q);
+    });
+
   }
 
   public postSync() {
@@ -94,10 +99,14 @@ export class ApiService {
   }
 
   public postBalance() {
-    this.postMessage(this.balanceUrl, this.balance_request, ADD_PROFILE);
+    this.postMessage(this.balanceUrl, this.balance_request, API_BALANCE);
   }
 
-  public postCredit() {
+  public postCredit(amount = 0) {
+    this.credit_request.credit = amount * 100;
+    console.log(typeof amount);
+    console.log('postCredit');
+    console.log(this.credit_request);
     this.postMessage(this.creditUrl, this.credit_request, ADD_CREDIT);
   }
 
@@ -137,7 +146,7 @@ export class ApiService {
   private _apiErrorHandler(label: string, response) {
     console.log('API ERROR: ' + label);
     console.log(response);
-    this._store.dispatch({ type: API_ERROR, payload: { label: label, msg: response } });
+    this._store.dispatch({ type: API_ERROR, payload: { error: label, desc: response } });
   }
 
   protected dismissError() {

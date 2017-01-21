@@ -1,0 +1,11 @@
+<div class="user-informations" (click)="_srv.postBalance()">
+  <div [hidden]="userName"><h2>Login</h2></div>
+  <div [hidden]="!userName">
+    <h2>
+      {{userName}}
+    </h2>
+    <p class="user-sold">
+      {{sold}}<span class="decimal">{{decimal}}</span><br/><span>CHF</span>
+    </p>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ImessageError } from '../../model/api/message-error';
 
 import { ApiService } from '../../shared/api.service';
-import { IerrorMsg } from '../../model/error-msg';
 
 @Component({
   selector: 'dby-buddy-snackbar',
@@ -10,7 +10,7 @@ import { IerrorMsg } from '../../model/error-msg';
 })
 export class BuddySnackbarComponent implements OnInit {
 
-  private errorMsg: IerrorMsg;
+  private errorMsg: ImessageError;
   private simpleMsg: string;
 
   constructor(private _srv: ApiService) { }
@@ -19,6 +19,8 @@ export class BuddySnackbarComponent implements OnInit {
     this._srv.main.subscribe((o: any) => {
       this.errorMsg = o.err ? o.err : null;
       this.simpleMsg = o.msg ? o.msg : null;
+      console.log('BuddySnackbarComponent');
+      console.log(this.simpleMsg);
     });
   }
 
