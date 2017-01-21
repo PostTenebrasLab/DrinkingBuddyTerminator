@@ -1,5 +1,5 @@
 # DrinkingBuddyTerminator
-Web client and RFID acces manager for the Drinking Buddy Project  
+Web client and RFID acces manager for the [Drinking Buddy Project](https://github.com/PostTenebrasLab/DrinkingBuddyServer "Drinkng Buddy Server").  
 
 
 # Install
@@ -19,18 +19,18 @@ ng serve --env=mock
 - buy
 - credit
 
-All reponses, except sync, share the same top level interface.  
+All responses, except sync, share the same top level interface.  
 Distincts properties can be found in the message object of the response.  
-Backend errors are detected with a status different from 0.  
+Backend errors are detected with a status not equal 0.  
 Error detail can be found in the message object of the response.   
 
 ## sync
 Get the items list.  
-request: requires the terminal id (response may vary for different type of terminal).  
+request: requires the terminal id (response may vary for different types of terminals).  
 response: array of availables items (with price and quantity).  
 
 ## balance
-Get the user profile.  
+Get the user profile and his actual balance.  
 request: badge id.  
 response(message): error or profile info.  
 
