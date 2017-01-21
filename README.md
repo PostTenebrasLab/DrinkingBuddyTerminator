@@ -2,6 +2,15 @@
 Web client and RFID acces manager for the Drinking Buddy Project  
 
 
+# Install
+Install [angular-cli](https://github.com/angular/angular-cli#installation "angluar-cli").  
+```
+git clone https://github.com/PostTenebrasLab/DrinkingBuddyTerminator.git
+cd DrinkingBuddyTerminator
+npm install
+ng serve --env=mock
+```
+
 # API reference
 (see [API Interfaces](https://github.com/PostTenebrasLab/DrinkingBuddyTerminator/tree/master/src/app/model/api "API Interfaces").)
 
@@ -11,7 +20,9 @@ Web client and RFID acces manager for the Drinking Buddy Project
 - credit
 
 All reponses, except sync, share the same top level interface.  
-Distincts properties can be found in the message object of the response.
+Distincts properties can be found in the message object of the response.  
+Backend errors are detected with a status different from 0.  
+Error detail can be found in the message object of the response.   
 
 ## sync
 Get the items list.  
@@ -21,12 +32,12 @@ response: array of availables items (with price and quantity).
 ## balance
 Get the user profile.  
 request: badge id.  
-response(message): error or  credit.  
+response(message): error or profile info.  
 
 ## buy
 Send the cart for purchase. Randomly a user win his cart.    
 request: badge + cart (as an array of productId and quantity).  
-response(message): won(boolean) + optional text.  
+response(message): error or won(boolean) + optional text.  
 
 ## credit
 Add credit to the user account.  
