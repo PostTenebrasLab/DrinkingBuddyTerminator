@@ -10,7 +10,8 @@ Web client and RFID acces manager for the Drinking Buddy Project
 - buy
 - credit
 
-All reponses, except sync, share the same top level interface. Differents properties can be found in the message object of this response.
+All reponses, except sync, share the same top level interface.  
+Distincts properties can be found in the message object of the response.
 
 ## sync
 Get the items list.  
@@ -23,12 +24,13 @@ request: badge id.
 response(message): error or  credit.  
 
 ## buy
+Send the cart for purchase. Randomly a user win his cart.    
 request: badge + cart (as an array of productId and quantity).  
-response(message): win + optional text.  
+response(message): won(boolean) + optional text.  
 
 ## credit
 Add credit to the user account.  
-request requires (among others): badge and credit (numeric, in cents).  
+request: requires badge and credit (numeric, in cents).  
 response(message): same as balance.  
 
 
