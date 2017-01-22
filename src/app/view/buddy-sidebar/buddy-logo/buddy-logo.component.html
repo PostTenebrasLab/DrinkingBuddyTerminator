@@ -1,5 +1,8 @@
   <header (click)="_srv.sync()">
-    <img src="assets/img/logo_ptl.png" alt="logo ptl">
-    <h1>Drinking Buddy</h1>
+    <img src="assets/img/logo_ptl.png"
+    alt="logo ptl"
+    [@buddySpin]="spin">
+    <h1
+    [@buddyPulse]="pulse">Drinking Buddy</h1>
     <h2>{{buddyTime}}</h2>
   </header>

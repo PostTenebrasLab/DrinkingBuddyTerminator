@@ -48,11 +48,9 @@ import { BuddyLogoComponent } from './view/buddy-sidebar/buddy-logo/buddy-logo.c
     FormsModule,
     HttpModule,
     ModelModule,
-
     InMemoryWebApiModule.forRoot(MockData), // only for dev
-
   ],
   providers: [ ApiService ],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

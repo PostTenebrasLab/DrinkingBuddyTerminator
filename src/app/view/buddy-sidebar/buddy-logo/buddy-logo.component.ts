@@ -1,9 +1,16 @@
-import { IbuddyUser } from '../../../model/buddy-user';
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Rx';
 import * as moment from 'moment';
 
+import { IbuddyUser } from '../../../model/buddy-user';
 import { ApiService } from '../../../shared/api.service';
 
 import {
@@ -14,51 +21,70 @@ import {
 @Component({
   selector: 'dby-buddy-logo',
   templateUrl: './buddy-logo.component.html',
-  styleUrls: ['./buddy-logo.component.scss']
+  styleUrls: ['./buddy-logo.component.scss'],
+  animations: [
+    trigger('buddyPulse', [
+      state('inactive', style({
+        transform: 'scale(1)'
+      })),
+      state('active', style({
+        transform: 'scale(1.1)'
+      })),
+      transition('inactive => active', animate('250ms ease-in')),
+      transition('active => inactive', animate('250ms ease-out'))
+    ]),
+    trigger('buddySpin', [
+      state('yes', style({
+        transform: 'rotate(-360deg)'
+      })),
+      transition('* => *', animate('1000ms'))
+    ])
+  ]
 })
 export class BuddyLogoComponent implements OnInit {
 
+  private static lastSync: any;
+  private static lastAction: any;
   private buddyTime: any;
-  private lastSync: any;
-  private lastAction: any;
   private user: any;
-
-  public main: Observable<any>;
-  public products: Observable<any>;
-  public profile: Observable<any>;
+  private pulse: string = 'inactive';
+  private spin: string = 'inactive';
 
   constructor(private _srv: ApiService, private _store: Store<any>) {
 
-    this.products = _store.select('products');
-    this.profile = _store.select('profile');
-
-    this.profile.subscribe((u: IbuddyUser) => {
-      this.lastAction = moment();
-      this.lastSync = moment();
+    _srv.profile.subscribe((u: IbuddyUser) => {
+      BuddyLogoComponent.lastAction = moment();
+      BuddyLogoComponent.lastSync = moment();
       this.user = u;
       console.log('logo - profile subscribe');
-      console.log(this.lastAction);
+      console.log(BuddyLogoComponent.lastAction);
     });
 
-    this.products.subscribe((p: any) => {
+    _srv.products.subscribe((p: any) => {
       if (p.time) {
-        this.lastAction = p.time;
+        BuddyLogoComponent.lastAction = p.time;
       }
-      this.lastSync = moment();
+      BuddyLogoComponent.lastSync = moment();
     });
 
   }
 
   ngOnInit() {
+
+    this.buddyTime = moment().format('D MMMM YYYY HH:mm:ss');
+    this._srv.sync();
+
     setInterval(() => {
+      this.doPulse();
       const now = moment();
       this.buddyTime = now.format('D MMMM YYYY HH:mm:ss');
-      const deltaAction = now.diff(this.lastAction);
-      const deltaSync = now.diff(this.lastSync);
+      const deltaAction = now.diff(BuddyLogoComponent.lastAction);
+      const deltaSync = now.diff(BuddyLogoComponent.lastSync);
       console.log(deltaAction);
       if (deltaSync > 15000) {
         this._srv.sync();
-        this.lastSync = now;
+        // BuddyLogoComponent.lastSync = now;
+        this.doSpin();
       }
       if (deltaAction > 30000 && this.user.badge) {
         this._store.dispatch({ type: EMPTY_CART, payload: null });
@@ -66,6 +92,19 @@ export class BuddyLogoComponent implements OnInit {
       }
 
     }, 3000);
+  }
+
+  private togglePulse() {
+    this.pulse = this.pulse === 'active' ? 'inactive' : 'active';
+  }
+
+  private doPulse() {
+    this.togglePulse();
+    setTimeout(() => this.togglePulse(), 260);
+  }
+
+  private doSpin() {
+    this.spin = this.spin === 'yes' ? 'andyes' : 'yes';
   }
 
 }
