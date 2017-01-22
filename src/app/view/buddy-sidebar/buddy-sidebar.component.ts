@@ -1,6 +1,6 @@
 
 import { Component, OnInit } from '@angular/core';
-// import { TestService } from '../../shared/test.service';
+
 import { ApiService } from '../../shared/api.service';
 
 @Component({
@@ -12,17 +12,14 @@ export class BuddySidebarComponent implements OnInit {
 
   addMoneyIsVisible: boolean;
 
-  constructor(private _srv: ApiService) { }
+  constructor(private _srv: ApiService) {
+    this.addMoneyIsVisible = false;
+  }
 
   ngOnInit() { }
 
-
-  toggleMoneyPanel(newState: boolean) {
-    if (newState === true) {
-      this.addMoneyIsVisible = true;
-    } else {
-      this.addMoneyIsVisible = false;
-    }
+  toggleMoneyPanel() {
+      this.addMoneyIsVisible = !this.addMoneyIsVisible;
   }
 
   cancelAction() {

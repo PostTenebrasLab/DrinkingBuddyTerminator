@@ -6,8 +6,10 @@ import {
     BUY_MSG,
     ADD_CREDIT,
     ADD_PRODUCT,
-    API_BALANCE
-} from './action-names';
+    API_BALANCE,
+    ADD_TO_CART_ERROR,
+    MSG_NO_BADGE
+} from '../action-names';
 
 export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) => {
 
@@ -36,6 +38,13 @@ export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) =>
         case ADD_CREDIT:
             ret = (status === 0) ? { msg: 'OK' } : { err: action.payload.message };
             return Object.assign([], state, ret);
+
+        case ADD_TO_CART_ERROR:
+            return Object.assign([], state, { msg: 'Out of stock' });
+
+        case MSG_NO_BADGE:
+            return Object.assign([], state, { msg: 'No Badge' });
+
 
         default:
             return state;

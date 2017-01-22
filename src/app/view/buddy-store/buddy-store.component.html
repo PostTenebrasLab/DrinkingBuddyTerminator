@@ -1,4 +1,5 @@
 
-<dby-buddy-item 
-*ngFor="let item of products" 
-[item]="item"></dby-buddy-item>
+<dby-buddy-item
+*ngFor="let item of products?.stock"
+[item]="item"
+(addToCart)="addToCart($event)"></dby-buddy-item>

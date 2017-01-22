@@ -1,13 +1,24 @@
+// Core
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MockData } from './mock-data';
+import { StoreModule } from '@ngrx/store';
 
-import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
+// Reducers
+import { mainReducer }    from './reducers/main-reducer';
+import { productReducer } from './reducers/product-reducer';
+import { profileReducer } from './reducers/profile-reducer';
+
 
 @NgModule({
   imports: [
     CommonModule,
-    // InMemoryWebApiModule.forRoot(MockData) // only for dev
+
+    StoreModule.provideStore({
+      main: mainReducer,
+      profile: profileReducer,
+      products: productReducer,
+    }),
+
   ],
   declarations: []
 })

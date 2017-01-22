@@ -1,8 +1,8 @@
 export const data_balance =
     {
         "message": {
-            "name": "ChristianC.",
-            "credit": 214251,
+            "name": "pliski",
+            "credit": 4251,
             "id": 13
         },
         "status": 0,

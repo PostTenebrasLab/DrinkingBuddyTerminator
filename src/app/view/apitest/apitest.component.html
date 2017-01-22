@@ -4,6 +4,6 @@
 <button (click)="_srv.postCredit(10)">Test Credit</button>
 
 <dby-apiview
-[products]="_srv.products | async"
+[products]="_srv.products.stock | async"
 [profile]="_srv.profile | async"
 ></dby-apiview>

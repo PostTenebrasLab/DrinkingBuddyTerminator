@@ -11,7 +11,9 @@ import { IcreditRequest } from '../model/api/credit-request';
 import { IsyncRequest } from '../model/api/sync.request';
 import { IsyncResponse } from '../model/api/sync-response';
 import { IcartItem } from '../model/api/cart-item';
+import { IbuddyItem } from '../model/buddy-item';
 import { IbuyRequest } from '../model/api/buy-request';
+import { IbuddyUser } from '../model/buddy-user';
 import {
   ADD_PRODUCT,
   API_BALANCE,
@@ -19,6 +21,8 @@ import {
   API_ERROR_CLEAN,
   BUY_MSG,
   ADD_CREDIT,
+  MSG_NO_BADGE,
+  PROFILE_LOGIN,
 } from '../model/action-names';
 
 const TERMINAL_ID = 0;
@@ -33,13 +37,14 @@ export class ApiService {
   private creditUrl = 'credit';
 
   public main: Observable<any>;
-  private products: Observable<any>;
+  public products: Observable<any>;
   public profile: Observable<any>;
   private sync_request: IsyncRequest;
   private balance_request: IbalanceRequest;
   private credit_request: IcreditRequest;
   private buy_request: IbuyRequest;
   private badge_key: any;
+  private user: IbuddyUser;
 
 
   constructor(private _http: Http, private _store: Store<any>) {
@@ -48,6 +53,13 @@ export class ApiService {
     this.main = _store.select('main');
     this.products = _store.select('products');
     this.profile = _store.select('profile');
+
+    this.profile.subscribe((u: IbuddyUser) => {
+      if (u && this.user && u.badge !== this.user.badge) {
+        this.postBalance(u.badge);
+      }
+      this.user = u;
+    });
 
     if (!environment.production) {
       this.devSettings();
@@ -66,7 +78,7 @@ export class ApiService {
     };
 
     this.buy_request = {
-      badge: this.badge_key,
+      badge: null,
       cart: null,
       time: environment.fakeTime,
       hash: environment.fakeHash,
@@ -74,14 +86,14 @@ export class ApiService {
     };
 
     this.balance_request = {
-      badge: this.badge_key,
+      badge: null,
       time: environment.fakeTime,
       hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
     };
 
     this.credit_request = {
-      badge: this.badge_key,
+      badge: null,
       time: environment.fakeTime,
       hash: environment.fakeHash,
       terminal_id: TERMINAL_ID,
@@ -93,6 +105,10 @@ export class ApiService {
     //   console.log(q);
     // });
 
+  }
+
+  public login(badge: string) {
+    this._store.dispatch({ type: PROFILE_LOGIN, payload: badge });
   }
 
 
@@ -109,7 +125,14 @@ export class ApiService {
   }
 
 
-  public postBalance() {
+  public postBalance(badge?: any) {
+
+    if (!badge) {
+      badge = this.user.badge;
+    }
+
+    this.balance_request.badge = badge;
+
     if (environment.mock) {
       return this.getMessage(this.balanceUrl, this.balance_request, API_BALANCE);
     }
@@ -117,6 +140,11 @@ export class ApiService {
   }
 
   public postCredit(amount = 0) {
+    if (!this.user || !this.user.badge) {
+      return this._store.dispatch({ type: MSG_NO_BADGE, payload: null });
+    };
+
+    this.credit_request.badge = this.user.badge;
     this.credit_request.credit = amount * 100;
 
     if (environment.mock) {
@@ -126,16 +154,21 @@ export class ApiService {
 
   }
 
-  public postBuy(items: IcartItem[]) {
-    this.buy_request.cart = items;
-    this.postMessage(this.buyUrl, this.buy_request, BUY_MSG);
+  // todo: filter IbuddyItems to IcartItem
+  public postBuy(items: IbuddyItem[]) {
 
+    if (!this.user || !this.user.badge) {
+      return this._store.dispatch({ type: MSG_NO_BADGE, payload: null });
+    };
+
+    this.buy_request.badge = this.user.badge;
+    this.buy_request.cart = items;
 
     if (environment.mock) {
       return this.getMessage(this.buyUrl, this.buy_request, BUY_MSG);
+    } else {
+      return this.postMessage(this.buyUrl, this.buy_request, BUY_MSG);
     }
-    return this.postMessage(this.buyUrl, this.buy_request, BUY_MSG);
-
   }
 
   // API calls
@@ -204,11 +237,17 @@ export class ApiService {
       .subscribe(
       (action) => {
         console.log(action);
-        return this._store.dispatch(action);
+        this._store.dispatch(action);
       },
       error => this._apiErrorHandler(url, error),
-      () => console.log('complete: ' + url)
-      );
+      () => {
+        console.log('complete: ' + url);
+        this.sync();
+        if (url === this.buyUrl) {
+          this.postBalance();
+        }
+      });
+
   }
 
   // ERROR HANDLER

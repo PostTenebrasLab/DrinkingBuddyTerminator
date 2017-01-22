@@ -1,0 +1,39 @@
+.dby-buddy-cart-wrapper {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  .cart-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .btn {
+    display: inline-block;
+    width: 100%;
+    padding-left: 0;
+    padding-right: 0;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    border: 0;
+  }
+  .cart-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+  .btn {
+    &.buy {
+      background-color: mediumturquoise;
+      min-height: 75px;
+    }
+    &.cancel {
+      background-color: darkred;
+      min-height: 75px;
+    }
+  }
+}

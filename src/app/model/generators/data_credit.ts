@@ -5,8 +5,8 @@ export const data_credit =
         "time": 1484956414,
         "message":
         {
-            "credit": 3300.00015,
-            "name": "ChristianC.",
+            "credit": 5200,
+            "name": "pliski",
             "id": 13
         },
         "status": 0

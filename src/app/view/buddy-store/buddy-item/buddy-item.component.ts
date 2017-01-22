@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { IbuddyItem } from 'app/model/buddy-item';
 
@@ -11,6 +11,7 @@ import { IbuddyItem } from 'app/model/buddy-item';
 export class BuddyItemComponent implements OnInit {
 
   @Input() item: IbuddyItem;
+  @Output() addToCart: EventEmitter<any> = new EventEmitter();
 
   intPart: string;
   decPart: string;

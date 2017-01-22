@@ -1,0 +1,19 @@
+<div class="dby-buddy-cart-wrapper" *ngIf="total.quantity">
+  <dby-buddy-cart-item *ngFor="let item of cart" [item]="item" (click)="removeFromCart(item)"></dby-buddy-cart-item>
+
+  <div class="cart-total">
+    <span>Total</span>
+    <span>{{total.quantity}} items</span>
+    <span>{{total.price | priceDisplay}}chf</span>
+  </div>
+
+  <div class="cart-action">
+    <button class="btn buy" (click)="buyAction()">
+      Buy
+  </button>
+    <button class="btn cancel" (click)="cancelAction()">
+      Cancel
+  </button>
+  </div>
+
+</div>
