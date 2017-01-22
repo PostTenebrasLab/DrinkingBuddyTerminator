@@ -8,7 +8,8 @@ import {
     ADD_PRODUCT,
     API_BALANCE,
     ADD_TO_CART_ERROR,
-    MSG_NO_BADGE
+    MSG_NO_BADGE,
+    PROFILE_LOGOFF
 } from '../action-names';
 
 export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) => {
@@ -44,6 +45,9 @@ export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) =>
 
         case MSG_NO_BADGE:
             return Object.assign([], state, { msg: 'No Badge' });
+
+        case PROFILE_LOGOFF:
+            return Object.assign([], state, { msg: 'Logged out' });
 
 
         default:

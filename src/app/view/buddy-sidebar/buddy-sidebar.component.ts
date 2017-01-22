@@ -19,7 +19,7 @@ export class BuddySidebarComponent implements OnInit {
   ngOnInit() { }
 
   toggleMoneyPanel() {
-      this.addMoneyIsVisible = !this.addMoneyIsVisible;
+    this.addMoneyIsVisible = !this.addMoneyIsVisible;
   }
 
   cancelAction() {

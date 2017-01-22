@@ -10,4 +10,5 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const EMPTY_CART = 'EMPTY_CART';
 export const MSG_NO_BADGE = 'MSG_NO_BADGE';
 export const PROFILE_LOGIN = 'PROFILE_LOGIN';
+export const PROFILE_LOGOFF = 'PROFILE_LOGOFF';
 

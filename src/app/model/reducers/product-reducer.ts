@@ -1,6 +1,6 @@
 
 import { ActionReducer, Action } from '@ngrx/store';
-import { ApiService } from '../../shared/api.service';
+import * as moment from 'moment';
 
 import { IbuddyItem } from '../buddy-item';
 import { IproductStore } from './product-store';
@@ -52,7 +52,7 @@ export const productReducer: ActionReducer<IproductStore> = (state: IproductStor
                 return i;
             });
 
-            return Object.assign({}, { stock: newStock, cart: newCart });
+            return Object.assign({}, { stock: newStock, cart: newCart, time: moment() });
 
 
         case REMOVE_FROM_CART:
@@ -70,14 +70,14 @@ export const productReducer: ActionReducer<IproductStore> = (state: IproductStor
             let stockItem = state.stock.find((i: IbuddyItem) => i.id === action.payload.id);
             stockItem.quantity++;
 
-            return Object.assign({}, state);
+            return Object.assign({}, state, { time: moment() });
 
         case EMPTY_CART:
-            return Object.assign({}, state, { cart: [] });
+            return Object.assign({}, state, { cart: [], time: moment() });
 
         case BUY_MSG:
-            let ret = (status === 0) ? Object.assign({}, state, { cart: [] }) : Object.assign([], state);
-            return ret;
+            let ret = (status === 0) ? { cart: [], time: moment()} : { time: moment() };
+            return Object.assign({}, state, ret);
 
         default:
             return state;

@@ -24,6 +24,7 @@ import { PriceDisplayPipe } from './shared/price-display.pipe';
 // Dev
 import { InMemoryWebApiModule } from 'angular2-in-memory-web-api';
 import { MockData } from './model/mock-data';
+import { BuddyLogoComponent } from './view/buddy-sidebar/buddy-logo/buddy-logo.component';
 // import { ApitestModule } from './view/apitest/apitest.module';
 // import { ApitestService } from './view/apitest/apitest.service';
 
@@ -40,6 +41,7 @@ import { MockData } from './model/mock-data';
     BuddyCartComponent,
     BuddyCartItemComponent,
     PriceDisplayPipe,
+    BuddyLogoComponent,
   ],
   imports: [
     BrowserModule,

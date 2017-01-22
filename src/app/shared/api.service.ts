@@ -55,7 +55,7 @@ export class ApiService {
     this.profile = _store.select('profile');
 
     this.profile.subscribe((u: IbuddyUser) => {
-      if (u && this.user && u.badge !== this.user.badge) {
+      if (u && this.user && u.badge && u.badge !== this.user.badge) {
         this.postBalance(u.badge);
       }
       this.user = u;
@@ -203,7 +203,13 @@ export class ApiService {
       .subscribe(
       (action) => this._store.dispatch(action),
       error => this._apiErrorHandler(url, error),
-      () => console.log('complete: ' + url)
+      () => {
+        console.log('complete: ' + url);
+        this.sync();
+        if (url === this.buyUrl) {
+          this.postBalance();
+        }
+      }
       );
   }
 
