@@ -12,7 +12,9 @@ import {
     BUY_MSG,
 } from '../action-names';
 
-export const productReducer: ActionReducer<IproductStore> = (state: IproductStore = { stock: [], cart: [] }, action: Action) => {
+// export const productReducer: ActionReducer<IproductStore> = (state: IproductStore = { stock: [], cart: [] }, action: Action) => {
+
+export function productReducer(state: any = { stock: [], cart: [] }, action: Action): ActionReducer<any> {
 
     let status = (action.payload && action.payload.status !== undefined) ? action.payload.status : null;
 
@@ -52,7 +54,7 @@ export const productReducer: ActionReducer<IproductStore> = (state: IproductStor
                 return i;
             });
 
-            return Object.assign({}, { stock: newStock, cart: newCart, time: moment() });
+            return Object.assign({}, { stock: newStock, cart: newCart, time: moment() }) as any;
 
 
         case REMOVE_FROM_CART:
@@ -76,7 +78,7 @@ export const productReducer: ActionReducer<IproductStore> = (state: IproductStor
             return Object.assign({}, state, { cart: [], time: moment() });
 
         case BUY_MSG:
-            let ret = (status === 0) ? { cart: [], time: moment()} : { time: moment() };
+            let ret = (status === 0) ? { cart: [], time: moment() } : { time: moment() };
             return Object.assign({}, state, ret);
 
         default:

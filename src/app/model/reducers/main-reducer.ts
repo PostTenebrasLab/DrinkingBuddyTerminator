@@ -12,7 +12,9 @@ import {
     PROFILE_LOGOFF
 } from '../action-names';
 
-export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) => {
+// export const mainReducer: ActionReducer<any[]> = (state = [], action: Action) => {
+
+export function mainReducer(state: any = [], action: Action): ActionReducer<any> {
 
     let status = (action.payload && action.payload.status !== undefined) ? action.payload.status : null;
     let ret = null;

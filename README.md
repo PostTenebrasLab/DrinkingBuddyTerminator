@@ -1,7 +1,6 @@
 # DrinkingBuddyTerminator
 Web client and RFID acces manager for the [Drinking Buddy Project](https://github.com/PostTenebrasLab/DrinkingBuddyServer "Drinkng Buddy Server").  
 
-
 # Install
 Install [angular-cli](https://github.com/angular/angular-cli#installation "angluar-cli").  
 ```
@@ -43,7 +42,6 @@ response(message): error or won(boolean) + optional text.
 Add credit to the user account.  
 request: requires badge and credit (numeric, in cents).  
 response(message): same as balance.  
-
 
 
 # Environments

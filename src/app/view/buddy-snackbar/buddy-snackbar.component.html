@@ -1,7 +1,7 @@
-<div 
-id="snackbar" 
+<div
+id="snackbar"
 [ngClass]="{'show': errorMsg || simpleMsg}"
-(click)="_srv.dismissError()">
+(click)="dismissError()">
 
   <div>{{errorMsg?.error}}</div>
   <div>{{errorMsg?.desc}}</div>
