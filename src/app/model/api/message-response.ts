@@ -10,9 +10,9 @@
 // Status
 // 0: ok
 // !0: error
-export interface IbalanceResponse {
+export interface ImessageResponse {
     melody: string;
-    message: any; // any of the message-x.ts interfaces
+    message: any; // any of the message-*.ts interfaces
     time: any;
     status: number;
 }
