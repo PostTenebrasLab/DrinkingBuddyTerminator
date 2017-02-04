@@ -1,4 +1,4 @@
-import { InMemoryDbService } from 'angular2-in-memory-web-api';
+import { InMemoryDbService } from 'angular-in-memory-web-api';
 
 import { data_sync } from './generators/data_sync';
 import { data_balance } from './generators/data_balance';

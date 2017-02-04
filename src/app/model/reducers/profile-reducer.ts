@@ -7,7 +7,9 @@ import {
     PROFILE_LOGOFF,
 } from '../action-names';
 
-export const profileReducer: ActionReducer<any> = (state = {}, action: Action) => {
+// export const profileReducer: ActionReducer<any> = (state = {}, action: Action) => {
+
+export function profileReducer(state: any = {}, action: Action): ActionReducer<any> {
     switch (action.type) {
 
         case API_BALANCE:
@@ -24,7 +26,7 @@ export const profileReducer: ActionReducer<any> = (state = {}, action: Action) =
 
         case PROFILE_LOGOFF:
         console.log(PROFILE_LOGOFF);
-            return {};
+            return {} as any;
 
         default:
             return state;

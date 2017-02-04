@@ -263,6 +263,17 @@ export class ApiService {
     this._store.dispatch({ type: API_ERROR, payload: { error: label, desc: response } });
   }
 
+  private hashIt(message: any){
+      //   const siphash = require("siphash");
+  //   const key = siphash.string16_to_key("qqeqwdaasd31441.d3!");
+  //   const message = "Short test message";
+  //   this.hash_hex = siphash.hash_hex(key, message);
+
+    const siphash = require("siphash");
+    const key = [ 0xdeadbeef, 0xcafebabe, 0x8badf00d, 0x1badb002 ];
+    return siphash.hash_hex(key, message);
+  }
+
   protected dismissError() {
     this._store.dispatch({ type: API_ERROR_CLEAN, payload: null });
   }
