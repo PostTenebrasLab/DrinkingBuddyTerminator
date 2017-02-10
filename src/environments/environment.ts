@@ -7,13 +7,13 @@ import { mykey } from '../app/shared/local.conf';
 // const BASE_URL = '/app/';
 // const BASE_URL = '';
 // const BASE_URL = 'http://10.10.20.45:5000/';
-// const BASE_URL = 'http://10.42.65.20:5000/';
+const BASE_URL = 'http://10.42.65.20:5000/';
 // const BASE_URL = 'http://ptlpi:5000/';
 
 export const environment = {
   production: false,
   mock: false,
-  base_url: 'http://ptlpi:5000/',
+  base_url: BASE_URL,
   fakeTime: 123456789,
   fakeHash: '587a6b195d845c190261d6ab',
   fakeKey: mykey,

@@ -243,6 +243,10 @@ export class ApiService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
+    console.log('POST MESSAGE');
+    console.log(request);
+    
+
     this._http.post(
       this.BASE_URL + url,
       request,
