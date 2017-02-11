@@ -28,7 +28,7 @@ import { PriceDisplayPipe } from './shared/price-display.pipe';
 
 // Dev
 import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { MockData } from './model/mock-data';
+// import { MockData } from './model/mock-data';
 import { BuddyLogoComponent } from './view/buddy-sidebar/buddy-logo/buddy-logo.component';
 // import { ApitestModule } from './view/apitest/apitest.module';
 // import { ApitestService } from './view/apitest/apitest.service';
@@ -57,7 +57,7 @@ import { BuddyLogoComponent } from './view/buddy-sidebar/buddy-logo/buddy-logo.c
       profile: profileReducer,
       products: productReducer,
     }),
-    InMemoryWebApiModule.forRoot(MockData), // only for dev
+    // InMemoryWebApiModule.forRoot(MockData), // only for dev
   ],
   providers: [ApiService],
   bootstrap: [AppComponent]

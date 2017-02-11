@@ -27,7 +27,7 @@ import {
 
 const TERMINAL_ID = 0;
 const siphash = require('siphash');
-const key = [0xdeadbeef, 0xcafebabe, 0x8badf00d, 0x1badb002];
+// const key = [0xdeadbeef, 0xcafebabe, 0x8badf00d, 0x1badb002];
 
 @Injectable()
 export class ApiService {
@@ -44,7 +44,7 @@ export class ApiService {
   private sync_request: IsyncRequest;
   private badge_key: any;
   private user: IbuddyUser;
-
+  private key: any;
 
   constructor(private _http: Http, private _store: Store<any>) {
 
@@ -60,9 +60,9 @@ export class ApiService {
       this.user = u;
     });
 
-    this.sync_request = {
-      terminal_id: TERMINAL_ID,
-    };
+    // this.sync_request = {
+    //   terminal_id: TERMINAL_ID,
+    // };
 
     if (!environment.production) {
       this.badge_key = environment.fakeKey;
@@ -218,9 +218,19 @@ export class ApiService {
 
     this._http.post(
       this.BASE_URL + this.syncUrl,
-      this.hashAll(this.sync_request),
+      {
+        terminal_id: TERMINAL_ID,
+      },
       options)
       .map(res => res.json())
+      .map(res2 => {
+        const toSip = res2.header + res2.time;
+        const hashedResponse = this.hashIt(toSip);
+        if (hashedResponse !== res2.hash) {
+           this._apiErrorHandler(this.syncUrl, 'HASH ERROR');
+        }
+        return res2; // continue on error for now
+      })
       .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.products }))
       .subscribe(
       (action) => this._store.dispatch(action),
@@ -245,7 +255,7 @@ export class ApiService {
 
     console.log('POST MESSAGE');
     console.log(request);
-    
+
 
     this._http.post(
       this.BASE_URL + url,
@@ -341,14 +351,14 @@ export class ApiService {
     if (x === undefined || x === null) return null;
 
     if (typeof x !== 'object') {
-      return siphash.hash_hex(key, x);
+      return siphash.hash_hex(environment.fakeKey, x);
     }
 
     Object.keys(x).forEach((k, i) => {
       if (typeof x === 'object') {
         x[k] = this.hashAll(x[k]);
       } else {
-        x[k] = siphash.hash_hex(key, x[k]);
+        x[k] = siphash.hash_hex(environment.fakeKey, x[k]);
       }
     });
 
@@ -359,16 +369,19 @@ export class ApiService {
 
   }
 
-  // private hashIt(message: any) {
-  //   //   const siphash = require("siphash");
-  //   //   const key = siphash.string16_to_key("qqeqwdaasd31441.d3!");
-  //   //   const message = "Short test message";
-  //   //   this.hash_hex = siphash.hash_hex(key, message);
+  private hashIt(message: any) {
+    //   const siphash = require("siphash");
+    //   const key = siphash.string16_to_key("qqeqwdaasd31441.d3!");
+    //   const message = "Short test message";
+    //   this.hash_hex = siphash.hash_hex(key, message);
 
-  //   const siphash = require("siphash");
-  //   const key = [0xdeadbeef, 0xcafebabe, 0x8badf00d, 0x1badb002];
-  //   return siphash.hash_hex(key, message);
-  // }
+    const sip = require('siphash');
+    const key = sip.string16_to_key('0123456789ABCDEF');
+    const res = sip.hash_hex(key, message);
+    // console.log('original ', res.toUpperCase());
+
+    return res.toUpperCase();
+  }
 
 
 
