@@ -63,3 +63,4 @@ import { BuddyLogoComponent } from './view/buddy-sidebar/buddy-logo/buddy-logo.c
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

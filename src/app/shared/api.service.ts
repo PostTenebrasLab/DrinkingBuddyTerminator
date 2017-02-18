@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 
+import * as moment from 'moment';
+
 import { environment } from '../../environments/environment';
 import { IbalanceRequest } from '../model/api/balance-request';
 import { IcreditRequest } from '../model/api/credit-request';
@@ -66,6 +68,7 @@ export class ApiService {
 
     if (!environment.production) {
       this.badge_key = environment.fakeKey;
+
     }
 
   }
@@ -88,7 +91,7 @@ export class ApiService {
   */
 
   public login(badge: string) {
-    this._store.dispatch({ type: PROFILE_LOGIN, payload: badge });
+    this._store.dispatch({ type: PROFILE_LOGIN, payload: 'A20F742E' });
   }
 
 
@@ -123,16 +126,24 @@ export class ApiService {
     }
 
     const balanceRequest = {
-      badge: badge,
-      time: environment.fakeTime,
-      hash: environment.fakeHash,
+      badge: 'A20F742E',
+      time: moment().unix(),
+      // time: 1487373251,
+      hash: null,
       terminal_id: TERMINAL_ID,
     };
 
+    console.log('balanceRequest');
+    console.log(balanceRequest);
+
+
+
+    balanceRequest.hash = this.hashIt(balanceRequest.badge + balanceRequest.time);
+
     if (environment.mock) {
-      return this.getMessage(this.balanceUrl, this.hashAll(balanceRequest), API_BALANCE);
+      return this.getMessage(this.balanceUrl, balanceRequest, API_BALANCE);
     }
-    return this.postMessage(this.balanceUrl, this.hashAll(balanceRequest), API_BALANCE);
+    return this.postMessage(this.balanceUrl, balanceRequest, API_BALANCE);
   }
 
 
@@ -152,17 +163,20 @@ export class ApiService {
     // this.credit_request.credit = amount * 100;
 
     const creditRequest = {
-      badge: this.user.badge,
-      time: environment.fakeTime,
-      hash: environment.fakeHash,
+      // badge: this.user.badge,
+      badge: 'A20F742E',
+      time: moment().unix(),
+      hash: null,
       terminal_id: TERMINAL_ID,
       credit: Math.round(amount * 100),
     };
 
+    creditRequest.hash = this.hashIt(this.user.badge + creditRequest.credit + creditRequest.time);
+
     if (environment.mock) {
       return this.getMessage(this.creditUrl, creditRequest, ADD_CREDIT);
     }
-    return this.postMessage(this.creditUrl, this.hashAll(creditRequest), ADD_CREDIT);
+    return this.postMessage(this.creditUrl, creditRequest, ADD_CREDIT);
 
   }
 
@@ -179,17 +193,20 @@ export class ApiService {
     };
 
     const buyRequest = {
-      badge: this.user.badge,
+      // badge: this.user.badge,
+      badge: 'A20F742E',
       cart: items,
-      time: environment.fakeTime,
-      hash: environment.fakeHash,
+      time: moment().unix(),
+      hash: null,
       terminal_id: TERMINAL_ID,
     };
 
+    buyRequest.hash = this.hashIt(this.user.badge + buyRequest.time);
+
     if (environment.mock) {
-      return this.getMessage(this.buyUrl, this.hashAll(buyRequest), BUY_MSG);
+      return this.getMessage(this.buyUrl, buyRequest, BUY_MSG);
     } else {
-      return this.postMessage(this.buyUrl, this.hashAll(buyRequest), BUY_MSG);
+      return this.postMessage(this.buyUrl, buyRequest, BUY_MSG);
     }
   }
 
@@ -223,14 +240,7 @@ export class ApiService {
       },
       options)
       .map(res => res.json())
-      .map(res2 => {
-        const toSip = res2.header + res2.time;
-        const hashedResponse = this.hashIt(toSip);
-        if (hashedResponse !== res2.hash) {
-           this._apiErrorHandler(this.syncUrl, 'HASH ERROR');
-        }
-        return res2; // continue on error for now
-      })
+      .do(res2 => this.hashCtrl(res2.header + res2.time, res2.hash))
       .map((response: IsyncResponse) => ({ type: ADD_PRODUCT, payload: response.products }))
       .subscribe(
       (action) => this._store.dispatch(action),
@@ -239,6 +249,17 @@ export class ApiService {
       );
   }
 
+  private hashCtrl(hashMe, likeMe) {
+    console.log('hashCtrl');
+    console.log(hashMe);
+    console.log(likeMe);
+    const hashedResponse = this.hashIt(hashMe);
+    if (hashedResponse !== likeMe) {
+      this._apiErrorHandler(this.syncUrl, 'HASH ERROR');
+    } else {
+      console.log('HASH OK!');
+    }
+  }
 
   /*
   *   MESSAGE
@@ -256,12 +277,12 @@ export class ApiService {
     console.log('POST MESSAGE');
     console.log(request);
 
-
     this._http.post(
       this.BASE_URL + url,
       request,
       options)
       .map(res => res.json())
+      .do(res2 => this.hashCtrl(res2.message.id.toString() + res2.message.credit.toString() + res2.time.toString(), res2.hash))
       .map((json_resp: any) => ({ type: actionName, payload: json_resp }))
       .subscribe(
       (action) => this._store.dispatch(action),
@@ -370,19 +391,17 @@ export class ApiService {
   }
 
   private hashIt(message: any) {
-    //   const siphash = require("siphash");
-    //   const key = siphash.string16_to_key("qqeqwdaasd31441.d3!");
-    //   const message = "Short test message";
-    //   this.hash_hex = siphash.hash_hex(key, message);
 
     const sip = require('siphash');
     const key = sip.string16_to_key('0123456789ABCDEF');
     const res = sip.hash_hex(key, message);
-    // console.log('original ', res.toUpperCase());
 
     return res.toUpperCase();
   }
 
+  // Object {badge: "A20F742E", time: 1487373251, hash: "3256CF4ABF4A99A7", terminal_id: 0}
+  // Object {badge: "A20F742E", time: 1487373251, hash: "3256CF4ABF4A99A7", terminal_id: 0} 
+  // 
 
 
 }
